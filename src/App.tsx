@@ -1,34 +1,32 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+
+import { useAccount } from 'wagmi';
+import { useCoins } from './hooks/useCoins';
+import { CoinTable } from './components/CoinTable/CoinTable';
+import { WalletComponents } from './components/Wallet/Wallet';
+import SwapComponents from './components/Swap/Swap';
+
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { address } = useAccount();
+  const { memeCoins, loading } = useCoins();
+  console.log(address);
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className='w-full'>
+      <nav className='w-full p-4 bg-gray-300 flex items-center justify-between'>
+        <h1 className='text-2xl font-bold'>CanHamzaCode</h1>
+        <WalletComponents />
+      </nav>
+      <main className='px-4 py-7 mb-4'>
+        <div className='w-full max-w-[800px] mx-auto text-center flex flex-col gap-3'>
+          <h1 className='text-2xl font-bold'>Top Memes Tokens by Market Capitalization</h1>
+          <p className='text-xl'>This page lists the top meme coins and tokens. These projects are listed by market capitalization with the largest first and then descending in order.</p>
+        </div>
+        <CoinTable  coins={memeCoins} loading={loading} /> 
+        <SwapComponents />
+      </main>
+    </div>
   )
 }
 
